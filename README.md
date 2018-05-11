@@ -9,20 +9,24 @@ OpenFoodFacts is a application coding in Python.
 The user is on the terminal. The terminal display two choice :
 
 1 - Which food do you want to replace ?
+
 2 - Find my substitued foods.
 
 When the user select 1. The application awser these questions to the user and the user select these responses :
 
-    Select the category. [Further proposals are associated to a number. The user enter the corresponding number and press "Enter".]
-    Select food. [PlusieursFurther proposals are associated to a number. The user enter the corresponding number and press "Enter".]
-    The application propose a substitute, its description, a store to buy it and a link to the page Open Food Facts of this food.
-    The user can saved the result in the database.
+* Select the category. [Further proposals are associated to a number. The user enter the corresponding number and press "Enter".]
+* Select food. [PlusieursFurther proposals are associated to a number. The user enter the corresponding number and press "Enter".]
+* The application propose a substitute, its description, a store to buy it and a link to the page Open Food Facts of this food.
+* The user can saved the result in the database.
 
 ## Functionality
 
 1 - Search of food in the database Open Food Facts.
+
 2 - The user use the application in the terminal.
+
 3 - If the user enter a character that is not a number, the application repeat the question again.
+
 4 - The research occurs on a MySQL base.
 
 ## Getting Started
