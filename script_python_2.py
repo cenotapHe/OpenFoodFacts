@@ -8,10 +8,9 @@ connection = sqlite3.connect("OpenFoodFacts.db")
 cursor = connection.cursor()
 
 
-my_file = open("Database_MySQL.sql", "r")
+my_file = open("Database_MySQL_for_script.sql", "r")
 all_my_file = my_file.read()
 
-print(type(all_my_file))
 count = 0
 
 for i in enumerate(all_my_file):
@@ -20,6 +19,8 @@ for i in enumerate(all_my_file):
         sql_command = all_my_file[count:i[0] + 1]
 
         count = i[0] + 1
+
+        print(sql_command)
 
         cursor.execute(sql_command)
 

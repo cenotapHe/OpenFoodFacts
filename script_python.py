@@ -67,29 +67,31 @@ while i <= i_max:
                     # Modification of wrong caracter for the SQL file
                     h = 0
                     while h < len(product_name):
-                        if product_name[h] == "'" or product_name[h] == '"':
+                        if product_name[h] == "'" or product_name[h] == '"' or product_name[h] == ';':
                             product_name = product_name[:h] + \
-                                " " + product_name[h + 1:]
+                                "," + product_name[h + 1:]
                         h += 1
                     h = 0
                     while h < len(product_stores):
-                        if product_stores[h] == "'" or product_stores[h] == '"':
+                        if product_stores[h] == "'" or product_stores[h] == '"' or product_stores[h] == ';':
                             product_stores = product_stores[:h] + \
-                                " " + product_stores[h + 1:]
+                                "," + product_stores[h + 1:]
                         h += 1
                     h = 0
                     while h < len(product_link):
-                        if product_link[h] == "'" or product_link[h] == '"':
+                        if product_link[h] == "'" or product_link[h] == '"' or product_link[h] == ';':
                             product_link = product_link[:h] + \
-                                " " + product_link[h + 1:]
+                                "," + product_link[h + 1:]
                         h += 1
 
                     # Make or Open the SQL file
                     fichier = open("test.sql", "a")
 
+                    number = str(i_category + 1)
+
                     # Creation of new category in the SQL file
                     if product_generic_name not in list_category:
-                        fichier.write("INSERT INTO category\nVALUES (NULL, '" +
+                        fichier.write("INSERT INTO category\nVALUES (" + number + ", '" +
                                       product_generic_name + "');\n\n")
 
                         list_category.append(product_generic_name)
@@ -114,16 +116,16 @@ while i <= i_max:
                     else:
                         product_nutriscore_number = '5'
 
+                    # Census of all item listed in the SQL file
+                    count += 1
                     # Creation of new product in the SQL file
-                    fichier.write("INSERT INTO product\nVALUES (NULL, " +
+                    fichier.write("INSERT INTO product\nVALUES (" + str(count) + ", " +
                                   str(product_number_category) + ", '" +
                                   product_name + "', '" +
                                   product_link + "', '" +
                                   product_stores + "', " +
-                                  product_nutriscore_number + ", False);\n\n")
-
-                    # Census of all item listed in the SQL file
-                    count += 1
+                                  product_nutriscore_number + ", 'False');\n\n")
+ 
 
                 k += 1
 
