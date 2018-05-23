@@ -34,7 +34,7 @@ def select_from(self):
 def update(self):
 
     cnx = mysql.connector.connect(
-        host='localhost', database='openfoodfacts', user='edward', password='josephsnowden')
+        host='localhost', database='openfoodfacts', user='user', password='password')
 
     cursor = cnx.cursor()
 
