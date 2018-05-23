@@ -7,8 +7,9 @@ import mysql.connector
 from fonction import *
 
 
-print("1 - Quel aliment souhaitez-vous remplacer ?")
-print("2 - Retrouver mes aliments substitués.")
+os.system('cls')
+print("1 - Trouver un aliment que vous souhaitez remplacer.")
+print("2 - Retrouver mes aliments précedements substitués.")
 print("q - Quitter.")
 choice = ["1", "2", "q"]
 answer = input(">>> ")
@@ -21,6 +22,7 @@ if answer == "q":
     sys.exit(0)
 
 if answer == "1":
+    os.system('cls')
     print("Choissisez votre catégorie :")
 
     query = "SELECT category_id, name FROM category"
@@ -42,6 +44,7 @@ if answer == "1":
     if category_answer == "q":
         sys.exit(0)
 
+    os.system('cls')
     print("Choissisez votre produit :")
 
     query = "SELECT id, name FROM product WHERE category_id = " + \
@@ -64,30 +67,26 @@ if answer == "1":
     if product_answer == "q":
         sys.exit(0)
 
-    query = "SELECT name, description FROM product WHERE id = " + \
+    query = "SELECT name, description, nutriscore, store FROM product WHERE id = " + \
         str(product_answer)
     product_final = select_from(query)
 
-    uprint(product_final[0][0])
-    uprint(product_final[0][1])
-    print("Voulez-vous substituer ce produit ? (y/n)")
-    substitut_answer = input(">>> ")
-
-    if substitut_answer == "n":
-        sys.exit(0)
-
-    substitut_choice = ["y", "n"]
-
-    while substitut_answer not in substitut_choice:
-        print("Ce choix n'est pas valide.")
-        substitut_answer = input(">>> ")
-
-    query = "SELECT nutriscore FROM product WHERE id = " + str(product_answer)
-    product_final = select_from(query)
+    os.system('cls')
+    uprint(" ", product_final[0][0], "\n@ " +
+           product_final[0][3] + "\n\nIngrédients:")
+    if product_final[0][1] == "":
+        print(" Nous n'avons pas la liste des ingrédients pour ce produit, désolé.")
+    else:
+        uprint(" " + product_final[0][1] + "\n")
+    print(" " + nutriscore(product_final[0][2]) + "\n")
+    input(">>> ")
 
     final_boucle = True
 
     while final_boucle:
+        query = "SELECT nutriscore FROM product WHERE id = " + \
+            str(product_answer)
+        product_final = select_from(query)
 
         if str(product_final[0][0]) == "1":
             print(
@@ -95,40 +94,85 @@ if answer == "1":
 
         else:
             try:
-                query = "SELECT id, name, nutriscore, store FROM product WHERE category_id = " + \
+                query = "SELECT id, name, nutriscore, store, description FROM product WHERE category_id = " + \
                     str(category_answer) + " AND nutriscore < " + \
                     str(product_final[0][0])
                 substitut_tupple = select_from(query)
                 i = random.randint(0, len(substitut_tupple) - 1)
                 substitut = substitut_tupple[i]
-                uprint(substitut)
+                uprint("\n", substitut[1], "\n@", substitut[3], "\n\nIngrédients:\n",
+                       substitut[4], "\n\n", nutriscore(substitut[2]), "\n")
 
             except ValueError:
                 print(
-                    "Malheureusement, il n'existe aucun produit de qualité supérieur dans cette catégorie.")
+                    "\nMalheureusement (ou bienheureusement selon le point de vue), il n'existe aucun produit de qualité supérieur dans cette catégorie.")
+                input("\nAppuyer sur 'Enter' pour continuer.")
+                os.system('cls')
+                os.system("py swap.py")
                 sys.exit(0)
         replace_choice = ["1", "2", "q"]
         print("1 - Sauvegarde du substitut pour cet article.")
         print("2 - Chercher un nouveau substitut pour cet article.")
-        print("q - Quitter.")
+        print("q - Retour.")
         replace_answer = input(">>> ")
 
         while replace_answer not in replace_choice:
             print("Ce choix n'est pas valide.")
-            substitut_answer = input(">>> ")
+            replace_answer = input(">>> ")
 
         if replace_answer == "q":
+            os.system('cls')
+            os.system("py swap.py")
             sys.exit(0)
 
         if replace_answer == "1":
             final_boucle = False
+            query = "UPDATE product SET register = True WHERE id = " + \
+                str(product_answer)
+            update(query)
+            query = "UPDATE product SET substitut_id = " + \
+                str(substitut[0]) + " WHERE id = " + str(product_answer)
+            update(query)
+            os.system('cls')
+            print("Le produit a bien été substitué.")
+            os.system("py swap.py")
+            sys.exit(0)
 
         if replace_answer == "2":
-            continue
+            if len(substitut_tupple) == 1:
+                print(
+                    "\nDésolé, mais il n'existe pas d'autre substitut valide dans cette catégorie.\n")
 
 
 if answer == "2":
 
-    query = "SELECT id, name, nutriscore, name FROM product WHERE register = True"
+    os.system('cls')
+
+    query = "SELECT id, name, store, substitut_id, nutriscore FROM product WHERE register = True"
 
     category_tupple = select_from(query)
+
+    try:
+        for i in enumerate(category_tupple):
+            query = "SELECT id, name, store, nutriscore FROM product WHERE id = " + \
+                str(i[1][3])
+            substitut_comparaison = select_from(query)
+            uprint("\n" + str(i[1][1]) + " @ " + str(i[1][2]) + " substitué par " +
+                   str(substitut_comparaison[0][1]) + " @ " + str(substitut_comparaison[0][2]))
+            print(nutriscore(i[1][4]) + " VersuS " +
+                  nutriscore(substitut_comparaison[0][3]))
+    except:
+        pass
+
+    print("\nTapez 'RAZ' pour une remise à zéro de tous les ingrédients substitués. (AUCUN RETOUR EN ARRIERE POSSIBLE)\nAppuyez sur n'importe qu'elle autre touche pour continuer.")
+    RAZ = input(">>> ")
+    if RAZ == "RAZ":
+        query = "UPDATE product SET substitut_id = NULL WHERE register = True"
+        update(query)
+        query = "UPDATE product SET register = False WHERE register = True"
+        update(query)
+        input("La base de données a bien été remise à Zéro.")
+
+    os.system('cls')
+    os.system("py swap.py")
+    sys.exit(0)
