@@ -15,3 +15,4 @@ else:
 	os.system('cls')
 	os.system("py -3.4 main.py")
 	sys.exit(0)
+
