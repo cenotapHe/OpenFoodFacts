@@ -1,12 +1,13 @@
 # coding: utf-8
 
+# Importation of the different module
 import sys
 import os
 import random
 import mysql.connector
 from fonction import *
 
-
+# Start menu of the application
 os.system('cls')
 print("1 - Trouver un aliment que vous souhaitez remplacer.")
 print("2 - Retrouver mes aliments précedements substitués.")
@@ -14,6 +15,7 @@ print("q - Quitter.")
 choice = ["1", "2", "q"]
 answer = input(">>> ")
 
+# Catch the wrong answer
 while answer not in choice:
     print("Ce choix n'est pas valide.")
     answer = input(">>> ")
@@ -21,10 +23,12 @@ while answer not in choice:
 if answer == "q":
     sys.exit(0)
 
+# Menu for choice the category of food
 if answer == "1":
     os.system('cls')
     print("Choissisez votre catégorie :")
 
+    # Using fonction of fonction.py for request SELECT FROM in your database
     query = "SELECT category_id, name FROM category"
     category_tupple = select_from(query)
 
@@ -37,6 +41,7 @@ if answer == "1":
 
     category_answer = input(">>> ")
 
+    # Catch the wrong answer
     while category_answer not in category_choice:
         print("Ce choix n'est pas valide.")
         category_answer = input(">>> ")
@@ -44,6 +49,7 @@ if answer == "1":
     if category_answer == "q":
         sys.exit(0)
 
+    # Menu for choice the product in the category choosen
     os.system('cls')
     print("Choissisez votre produit :")
 
@@ -60,6 +66,7 @@ if answer == "1":
 
     product_answer = input(">>> ")
 
+    # Catche the wrong answer
     while product_answer not in product_choice:
         print("Ce choix n'est pas valide.")
         product_answer = input(">>> ")
@@ -67,10 +74,12 @@ if answer == "1":
     if product_answer == "q":
         sys.exit(0)
 
+    # Using fonction of fonction.py for request SELECT FROM in your database
     query = "SELECT name, description, nutriscore, store FROM product WHERE id = " + \
         str(product_answer)
     product_final = select_from(query)
 
+    # Display the product properly
     os.system('cls')
     uprint(" ", product_final[0][0], "\n@ " +
            product_final[0][3] + "\n\nIngrédients:")
@@ -82,7 +91,7 @@ if answer == "1":
     input(">>> ")
 
     final_boucle = True
-
+    # The file seeking another product in the category and compare the nutriscore
     while final_boucle:
         query = "SELECT nutriscore FROM product WHERE id = " + \
             str(product_answer)
@@ -94,6 +103,7 @@ if answer == "1":
 
         else:
             try:
+                # Display the substitu properly
                 query = "SELECT id, name, nutriscore, store, description FROM product WHERE category_id = " + \
                     str(category_answer) + " AND nutriscore < " + \
                     str(product_final[0][0])
@@ -104,6 +114,7 @@ if answer == "1":
                        substitut[4], "\n\n", nutriscore(substitut[2]), "\n")
 
             except ValueError:
+                # The product is the best in his category
                 print(
                     "\nMalheureusement (ou bienheureusement selon le point de vue), il n'existe aucun produit de qualité supérieur dans cette catégorie.")
                 input("\nAppuyer sur 'Enter' pour continuer.")
@@ -111,6 +122,7 @@ if answer == "1":
                 os.system("py swap.py")
                 sys.exit(0)
         replace_choice = ["1", "2", "q"]
+        # Chose after the substitut
         print("1 - Sauvegarde du substitut pour cet article.")
         print("2 - Chercher un nouveau substitut pour cet article.")
         print("q - Retour.")
@@ -120,11 +132,13 @@ if answer == "1":
             print("Ce choix n'est pas valide.")
             replace_answer = input(">>> ")
 
+        # Use swap.py for choice if you want to continue or quit
         if replace_answer == "q":
             os.system('cls')
             os.system("py swap.py")
             sys.exit(0)
 
+        # Save the product and the substitut in the database
         if replace_answer == "1":
             final_boucle = False
             query = "UPDATE product SET register = True WHERE id = " + \
@@ -138,12 +152,13 @@ if answer == "1":
             os.system("py swap.py")
             sys.exit(0)
 
+        # If only one substitut exist, the system signal this
         if replace_answer == "2":
             if len(substitut_tupple) == 1:
                 print(
                     "\nDésolé, mais il n'existe pas d'autre substitut valide dans cette catégorie.\n")
 
-
+# When the user want to see the database of the subsitued product
 if answer == "2":
 
     os.system('cls')
@@ -152,6 +167,7 @@ if answer == "2":
 
     category_tupple = select_from(query)
 
+    # Display properly the substitued product
     try:
         for i in enumerate(category_tupple):
             query = "SELECT id, name, store, nutriscore FROM product WHERE id = " + \
@@ -164,6 +180,7 @@ if answer == "2":
     except:
         pass
 
+    # Utilisation for reset the database of the substitued product
     print("\nTapez 'RAZ' pour une remise à zéro de tous les ingrédients substitués. (AUCUN RETOUR EN ARRIERE POSSIBLE)\nAppuyez sur n'importe qu'elle autre touche pour continuer.")
     RAZ = input(">>> ")
     if RAZ == "RAZ":

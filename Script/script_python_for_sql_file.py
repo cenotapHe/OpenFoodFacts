@@ -22,7 +22,8 @@ name_category = ['hamburgers', 'viennoiseries', 'bonbons', 'mueslis', 'pizzas']
 while i <= i_max:
 
     # API request
-    os.system("curl -X GET https://fr-en.openfoodfacts.org/category/{}/{}.json --output fichier2.json".format(name_category[i_category], str(i)))
+    os.system("curl -X GET https://fr-en.openfoodfacts.org/category/{}/{}.json --output fichier2.json".format(
+        name_category[i_category], str(i)))
 
     # Open the file from API
     try:
@@ -92,7 +93,7 @@ while i <= i_max:
                     # Creation of new category in the SQL file
                     if product_generic_name not in list_category:
                         fichier2.write("INSERT INTO category\nVALUES (" + number + ", '" +
-                                      product_generic_name + "');\n\n")
+                                       product_generic_name + "');\n\n")
 
                         list_category.append(product_generic_name)
 
@@ -120,12 +121,11 @@ while i <= i_max:
                     count += 1
                     # Creation of new product in the SQL file
                     fichier2.write("INSERT INTO product\nVALUES (" + str(count) + ", " +
-                                  str(product_number_category) + ", '" +
-                                  product_name + "', '" +
-                                  product_link + "', '" +
-                                  product_stores + "', " +
-                                  product_nutriscore_number + ", False, NULL);\n\n")
- 
+                                   str(product_number_category) + ", '" +
+                                   product_name + "', '" +
+                                   product_link + "', '" +
+                                   product_stores + "', " +
+                                   product_nutriscore_number + ", False, NULL);\n\n")
 
                 k += 1
 

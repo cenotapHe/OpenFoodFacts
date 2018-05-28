@@ -1,8 +1,8 @@
 # coding: utf-8
 
+# Importation of the different module
 import sqlite3
 import os
-# Importation of the different module
 import json
 import time
 
@@ -23,7 +23,8 @@ name_category = ['hamburgers', 'viennoiseries', 'bonbons', 'mueslis', 'pizzas']
 while i <= i_max:
 
     # API request
-    os.system("curl -X GET https://fr-en.openfoodfacts.org/category/{}/{}.json --output fichier.json".format(name_category[i_category], str(i)))
+    os.system("curl -X GET https://fr-en.openfoodfacts.org/category/{}/{}.json --output fichier.json".format(
+        name_category[i_category], str(i)))
 
     # Open the file from API
     try:
@@ -126,7 +127,6 @@ while i <= i_max:
                                   product_link + "', '" +
                                   product_stores + "', " +
                                   product_nutriscore_number + ", 'False', NULL);\n\n")
- 
 
                 k += 1
 
@@ -170,12 +170,13 @@ connection = sqlite3.connect("OpenFoodFacts.db")
 
 cursor = connection.cursor()
 
-
+# Open the file for create the table of database
 my_file = open("Database_MySQL_for_script_python_for_db_file.sql", "r")
 all_my_file = my_file.read()
 
 count = 0
 
+# Decomposite the file in multi-query sql
 for i in enumerate(all_my_file):
     if i[1] == ";":
 
@@ -189,25 +190,29 @@ for i in enumerate(all_my_file):
 
 my_file.close()
 
+# Open the file create in the begin of the script
 my_file = open("test.sql", "r")
 all_my_file = my_file.read()
 
 print(type(all_my_file))
 count = 0
 
+# Decomposite the file in multi-query sql
 for i in enumerate(all_my_file):
     if i[1] == ";":
 
         sql_command = all_my_file[count:i[0] + 1]
-        
+
         print(sql_command)
 
         count = i[0] + 1
 
         cursor.execute(sql_command)
 
+# Close properly the different file
 my_file.close()
 
 connection.close()
 
+# Delete the useless file
 os.remove('test.sql')

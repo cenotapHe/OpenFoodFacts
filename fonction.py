@@ -1,8 +1,12 @@
+# Importation of the different module
 import mysql.connector
 import sys
 
+# Creation of printage fonction, for dodge the probleme of encodation coming to the sql file
+
 
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
+    """ Just print fonction, without probleme of encodation from sql file."""
     enc = file.encoding
     if enc == 'UTF-8':
         print(*objects, sep=sep, end=end, file=file)
@@ -13,7 +17,7 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
 
 
 def select_from(self):
-
+    """With mySQL connector, this fonction do a SELECT FROM"""
     cnx = mysql.connector.connect(
         host='localhost', database='openfoodfacts', user='user', password='password')
 
@@ -32,7 +36,7 @@ def select_from(self):
 
 
 def update(self):
-
+    """With mySQL connection, this fonction do another fonction from python to mySQL database"""
     cnx = mysql.connector.connect(
         host='localhost', database='openfoodfacts', user='user', password='password')
 
@@ -46,7 +50,7 @@ def update(self):
 
 
 def nutriscore(self):
-
+    """This fonction convert the nutriscore number in a nutriscore letter"""
     if self == 1:
         variable = "nutriscore = A"
     elif self == 2:
