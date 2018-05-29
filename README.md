@@ -25,6 +25,9 @@ OpenFoodFacts is a application coding in Python.
  ```
 
 * Python's files
+```
+Only use main.py
+```
 
 ## Description of the user's route
 
@@ -60,8 +63,8 @@ For launch the application use "main.py".
 Your need to have Python v3.x install on your machine.
 
 * [Python](https://www.python.org/downloads/) - The link for download Python from the website.
-* [MySQL]() - 
-* [MySQL Connector]() -
+* [MySQL](https://www.mysql.com/fr/downloads/) - MySQL (officially pronounced as /maɪ ˌɛskjuːˈɛl/ "My S-Q-L",[5]) is an open-source relational database management system (RDBMS)
+* [MySQL Connector](https://dev.mysql.com/downloads/connector/python/) - MySQL Connector/Python is a standardized database driver for Python platforms and development.
 
 ### Installing
 
@@ -84,10 +87,6 @@ python3 main.py
 ## Deployment
 
 This game is developped  as part of the project "Utilisez les données publiques de l'OpenFoodFacts", belonging to the course "Développeur-se d'application - Python" from the platforme OpenClassrooms.
-
-## Built With
-
-* [MySQL](https://www.mysql.com/) - MySQL (officially pronounced as /maɪ ˌɛskjuːˈɛl/ "My S-Q-L",[5]) is an open-source relational database management system (RDBMS)..
 
 ## Contributing
 
