@@ -3,8 +3,6 @@ import mysql.connector
 import sys
 
 # Creation of printage fonction, for dodge the probleme of encodation coming to the sql file
-
-
 def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
     """ Just print fonction, without probleme of encodation from sql file."""
     enc = file.encoding

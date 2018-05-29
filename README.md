@@ -4,6 +4,28 @@ An application for the fifth Project of DA Python
 
 OpenFoodFacts is a application coding in Python.
 
+## Befor using the application
+
+### Desciption of all item
+
+* Livrable
+```
+ - Link for the Trello
+ - Image of the "Modèle Physique de Données"
+ - Presentation of this application in a powerpoint
+ - Text file of the application's development
+```
+
+* Script
+```
+ - script_python_for_db_file : create a .db with the data from OpenFoodFacts
+ - script_python_for_sql_file : create a .sql with the data from OpenFoodFacts
+ - Database_MySQL.sql : create table on your MySQL database
+ - Database_MySQL.sql_for_script_python_for_db_file : using by script_python_for_db_file
+ ```
+
+* Python's files
+
 ## Description of the user's route
 
 The user is on the terminal. The terminal display two choice :
@@ -38,6 +60,8 @@ For launch the application use "main.py".
 Your need to have Python v3.x install on your machine.
 
 * [Python](https://www.python.org/downloads/) - The link for download Python from the website.
+* [MySQL]() - 
+* [MySQL Connector]() -
 
 ### Installing
 
